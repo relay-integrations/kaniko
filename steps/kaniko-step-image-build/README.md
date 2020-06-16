@@ -1,4 +1,4 @@
-# Kaniko
+# kaniko-step-image-build
 
 This Kaniko step container runs the Kaniko image builder.
 
@@ -29,7 +29,7 @@ steps:
 ...
 
 - name: kaniko
-  image: projectnebula/kaniko:latest
+  image: relaysh/kaniko-step-image-build
   spec:
     context: deploy
     buildArgs:
