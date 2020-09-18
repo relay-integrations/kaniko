@@ -10,11 +10,12 @@
     "context": {
       "type": "string",
       "description": "The directory within the specified Git repository to use as the Docker context",
-      "default": "/"
+      "default": "."
     },
     "buildArgs": {
       "type": "object",
-      "description": "A mapping of build argument names to values to pass to the build."
+      "description": "A mapping of build argument names to values to pass to the build.",
+      "additionalProperties": {"type": "string"}
     },
     "dockerfile": {
       "type": "string",
