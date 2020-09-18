@@ -7,18 +7,18 @@ kind: Step
 
 # The name of the action. Required. Must be exactly the name of the directory
 # containing the action.
-name: kaniko-step-image-build
+name: image-build
 
 # The version of the action. Required. Must be an integer. If specified in the
 # directory name, must be exactly the version in the directory name.
 version: 3
 
 # High-level phrase describing what this action does. Required.
-summary: Build image
+summary: Build Image
 
 # Single-paragraph explanation of what this action does in more detail.
 # Optional. Markdown.
-description: |
+description: This Kaniko step allows you to build a docker image from the git resource provided.
 
 
 # URL or path relative to this file to an icon or icons representing this
@@ -38,3 +38,8 @@ build:
 
 publish:
   repository: relaysh/kaniko-step-image-build
+
+schemas:
+  spec:
+    source: file
+    file: spec.schema.json

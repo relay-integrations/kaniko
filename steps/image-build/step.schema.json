@@ -1,0 +1,63 @@
+
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "destination": {
+      "type": "string",
+      "description": "The destination repository to push the image to after building."
+    },
+    "context": {
+      "type": "string",
+      "description": "The directory within the specified Git repository to use as the Docker context",
+      "default": "."
+    },
+    "buildArgs": {
+      "type": "object",
+      "description": "A mapping of build argument names to values to pass to the build.",
+      "additionalProperties": {"type": "string"}
+    },
+    "dockerfile": {
+      "type": "string",
+      "description": "Within the specified context directory, the path to the Dockerfile to build.",
+      "default": "Dockerfile"
+    },
+    "git": {
+      "type": "object",
+      "description": "A map of git configuration. If you're using HTTPS, only name and repository are required.",
+      "properties": {
+        "ssh_key": {
+          "type": "string",
+          "description": "The SSH key to use when cloning the git repository. You can pass the key to Relay as a secret. See the example below."
+        },
+        "known_hosts": {
+          "type": "string",
+          "description": "SSH known hosts file. Use a Relay secret to pass the contents of the file into the workflow as a base64-encoded string. See the example below."
+        },
+        "name": {
+          "type": "string",
+          "description": "A directory name for the git clone."
+        },
+        "branch": {
+          "type": "string",
+          "description": "The Git branch to clone.",
+          "default": "master"
+        },
+        "repository": {
+          "type": "string",
+          "description": "The git repository URL."
+        }
+      },
+      "required": [
+        "ssh_key",
+        "name",
+        "repository"
+      ]
+    }
+  },
+  "required": [
+    "destination",
+    "git"
+  ],
+  "additionalProperties": false
+}
