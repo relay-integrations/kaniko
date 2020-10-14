@@ -4,6 +4,7 @@ title: Kaniko
 description: >
   The Kaniko task runs the Kaniko image builder.
 sdkVersion: v1
+name: kaniko-step-image-build
 images:
   base:
     template: Dockerfile.tpl
