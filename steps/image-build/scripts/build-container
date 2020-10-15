@@ -38,9 +38,9 @@ done
 shift $(( OPTIND - 1 ))
 
 
-$DOCKER $DOCKER_ARGS build $DOCKER_BUILD_ARGS --tag sdk.nebula.localhost/intermediate/f825a6225f16/kaniko --file Dockerfile .
+$DOCKER $DOCKER_ARGS build $DOCKER_BUILD_ARGS --tag sdk.nebula.localhost/intermediate/887bd60c7072/kaniko-step-image-build --file Dockerfile .
 
 for TAG in ${TAGS[@]+"${TAGS[@]}"}; do
-  $DOCKER $DOCKER_ARGS tag sdk.nebula.localhost/intermediate/f825a6225f16/kaniko "projectnebula/kaniko:${TAG}" && \
-    printf "# Tagged %s:%s\n" projectnebula/kaniko "${TAG}"
+  $DOCKER $DOCKER_ARGS tag sdk.nebula.localhost/intermediate/887bd60c7072/kaniko-step-image-build "relaysh/kaniko-step-image-build:${TAG}" && \
+    printf "# Tagged %s:%s\n" relaysh/kaniko-step-image-build "${TAG}"
 done

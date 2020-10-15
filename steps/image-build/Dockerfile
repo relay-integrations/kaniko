@@ -17,7 +17,7 @@ RUN set -eux ; \
     mv ni-v1*-linux-amd64 /usr/local/bin/ni && \
     cd - && \
     rm -fr /tmp/ni
-RUN apk --no-cache add bash ca-certificates curl git jq openssh socat && update-ca-certificates
+RUN apk --no-cache add bash ca-certificates curl git jq openssh && update-ca-certificates
 COPY --from=base /kaniko /kaniko
 RUN ["docker-credential-gcr", "config", "--token-source=env"]
 COPY ./step.sh /nebula/step.sh
