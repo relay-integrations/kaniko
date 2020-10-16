@@ -55,6 +55,6 @@ examples:
       destination: !Parameter imageName
       git: 
         ssh_key: !Secret ssh-key
-        name: branch
+        name: !parameter name
         branch: !Parameter gitBranch
         repository: !Parameter gitRepository
