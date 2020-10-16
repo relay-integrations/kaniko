@@ -47,14 +47,14 @@ schemas:
 examples:
 - summary: Build a docker image
   content: 
-    apiVersion: 1
+    apiVersion: v1
     kind: Step
     name: kaniko
     image: relaysh/kaniko-step-image-build
     spec:
-      destination: gcr.io/my-repo/my-image:latest
+      destination: !Parameter imageName
       git: 
         ssh_key: !Secret ssh-key
         name: branch
-        branch: !Parameter githubBranch
-        repository: !Parameter githubRepository
+        branch: !Parameter gitBranch
+        repository: !Parameter gitRepository
