@@ -43,3 +43,18 @@ schemas:
   spec:
     source: file
     file: spec.schema.json
+
+examples:
+- summary: Build a docker image
+  content: 
+    apiVersion: 1
+    kind: Step
+    name: kaniko
+    image: relaysh/kaniko-step-image-build
+    spec:
+      destination: gcr.io/my-repo/my-image:latest
+      git: 
+        ssh_key: !Secret ssh-key
+        name: branch
+        branch: !Parameter githubBranch
+        repository: !Parameter githubRepository
