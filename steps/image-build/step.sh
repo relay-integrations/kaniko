@@ -8,7 +8,8 @@ ni credentials config
 
 DOCKERHUB=$(ni get -p {.dockerhub})
 if [[ -n $DOCKERHUB ]]; then
-  cat << EOF > /workspace/config.json
+  mkdir -p /kaniko/.docker
+  cat << EOF > /kaniko/.docker/config.json
 {
   "auths": {
     "https://index.docker.io/v1/": {
