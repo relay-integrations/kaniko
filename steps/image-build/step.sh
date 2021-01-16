@@ -6,6 +6,19 @@ export GOOGLE_APPLICATION_CREDENTIALS=/workspace/credentials.json
 ni git clone
 ni credentials config
 
+DOCKERHUB=$(ni get -p {.dockerhub})
+if [[ -n $DOCKERHUB ]]; then
+  cat << EOF > /workspace/config.json
+{
+  "auths": {
+    "https://index.docker.io/v1/": {
+      "auth": "$DOCKERHUB"
+    }
+  }
+}
+EOF
+fi
+
 NAME=$(ni get -p {.git.name})
 CONTEXT=$(ni get -p {.context})
 DOCKERFILE=$(ni get -p {.dockerfile})

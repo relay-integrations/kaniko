@@ -12,6 +12,21 @@
       "description": "The directory within the specified Git repository to use as the Docker context",
       "default": "."
     },
+    "dockerhub": {
+      "type": "string",
+      "description": "If pushing to Docker Hub, a Secret containing the base64-encoded output of 'username:password'"
+    },
+    "gcp": {
+      "type": "object",
+      "x-relay-connectionType": "gcp",
+      "description": "If pushing to gcr.io, a Relay GCP connection to use",
+      "properties": {
+        "serviceAccountKey": {
+          "type": "string"
+        }
+      },
+      "required": ["serviceAccountKey"]
+    },
     "buildArgs": {
       "type": "object",
       "description": "A mapping of build argument names to values to pass to the build.",

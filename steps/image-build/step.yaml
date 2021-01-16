@@ -18,7 +18,7 @@ summary: Build Image
 
 # Single-paragraph explanation of what this action does in more detail.
 # Optional. Markdown.
-description: This Kaniko step allows you to build a docker image from the git resource provided.
+description: This Kaniko step allows you to build a docker image from the git resource provided. It supports pushing images to GCR and Docker Hub. In your workflow, either specify a Secret named `dockerhub` whose value is the output of `echo USER:PASSWORD | base64`, or use a `gcp` parameter whose value is a Relay GCP connection.
 
 
 # URL or path relative to this file to an icon or icons representing this
@@ -46,14 +46,16 @@ schemas:
 
 examples:
 - summary: Build a docker image
-  content: 
+  content:
     apiVersion: v1
     kind: Step
     name: kaniko
     image: relaysh/kaniko-step-image-build
     spec:
+      dockerhub: !Secret dockerhub
+      gcp: !Connection {type: gcp, name: my-gcp-credentials}
       destination: !Parameter imageName
-      git: 
+      git:
         ssh_key: !Secret ssh-key
         name: !Parameter name
         branch: !Parameter gitBranch
