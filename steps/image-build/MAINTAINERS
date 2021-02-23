@@ -5,5 +5,5 @@
 # This file roughly follows the format of an OWNERS file
 # (https://github.com/bkeepers/OWNERS).
 
-# Nebula Community
-@puppetlabs/nebula-community
+# Relay Community
+@puppetlabs/relay-community
