@@ -1,4 +1,3 @@
-
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
@@ -16,21 +15,34 @@
       "type": "string",
       "description": "If pushing to Docker Hub, a Secret containing the base64-encoded output of 'username:password'"
     },
-    "gcp": {
+    "google": {
       "type": "object",
-      "x-relay-connectionType": "gcp",
-      "description": "If pushing to gcr.io, a Relay GCP connection to use",
+      "description": "A mapping of Google account configuration.",
       "properties": {
-        "serviceAccountKey": {
-          "type": "string"
+        "connection": {
+          "type": "object",
+          "x-relay-connectionType": "gcp",
+          "description": "A Relay GCP connection to use",
+          "properties": {
+            "serviceAccountKey": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "serviceAccountKey"
+          ]
         }
       },
-      "required": ["serviceAccountKey"]
+      "required": [
+        "connection"
+      ]
     },
     "buildArgs": {
       "type": "object",
       "description": "A mapping of build argument names to values to pass to the build.",
-      "additionalProperties": {"type": "string"}
+      "additionalProperties": {
+        "type": "string"
+      }
     },
     "dockerfile": {
       "type": "string",
@@ -39,15 +51,22 @@
     },
     "git": {
       "type": "object",
-      "description": "A map of git configuration. If you're using HTTPS, only name and repository are required.",
+      "description": "A git repository containing the code to build",
       "properties": {
-        "ssh_key": {
-          "type": "string",
-          "description": "The SSH key to use when cloning the git repository. You can pass the key to Relay as a secret. See the example below."
-        },
-        "known_hosts": {
-          "type": "string",
-          "description": "SSH known hosts file. Use a Relay secret to pass the contents of the file into the workflow as a base64-encoded string. See the example below."
+        "connection": {
+          "type": "object",
+          "x-relay-connectionType": "ssh",
+          "description": "A Relay SSH connection to use",
+          "properties": {
+            "sshKey": {
+              "type": "string",
+              "description": "The SSH key to use when cloning the git repository."
+            },
+            "knownHosts": {
+              "type": "string",
+              "description": "SSH known hosts file."
+            }
+          }
         },
         "name": {
           "type": "string",
@@ -64,7 +83,6 @@
         }
       },
       "required": [
-        "ssh_key",
         "name",
         "repository"
       ]

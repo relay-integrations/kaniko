@@ -1,10 +1,17 @@
 #!/bin/bash
 set -euo pipefail
 
-export GOOGLE_APPLICATION_CREDENTIALS=/workspace/credentials.json
+CREDENTIALS=$(ni get -p {.credentials})
+if [ -n "${CREDENTIALS}" ]; then
+  ni credentials config
+  export GOOGLE_APPLICATION_CREDENTIALS=/workspace/credentials.json
+fi
 
-ni git clone
-ni credentials config
+GOOGLE=$(ni get -p {.google})
+if [ -n "${GOOGLE}" ]; then
+  ni gcp config -d "/workspace/.gcp"
+  export GOOGLE_APPLICATION_CREDENTIALS=/workspace/.gcp/credentials.json
+fi
 
 DOCKERHUB=$(ni get -p {.dockerhub})
 if [[ -n $DOCKERHUB ]]; then
@@ -19,6 +26,8 @@ if [[ -n $DOCKERHUB ]]; then
 }
 EOF
 fi
+
+ni git clone
 
 NAME=$(ni get -p {.git.name})
 CONTEXT=$(ni get -p {.context})
