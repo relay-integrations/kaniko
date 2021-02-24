@@ -1,51 +1,20 @@
-# The schema version. Required. Must be exactly the string "integration/v1".
 apiVersion: integration/v1
-
-# The schema kind. Required. Must be one of "Query", "Step", or "Trigger"
-# corresponding to its directory location.
 kind: Step
-
-# The name of the action. Required. Must be exactly the name of the directory
-# containing the action.
 name: image-build
-
-# The version of the action. Required. Must be an integer. If specified in the
-# directory name, must be exactly the version in the directory name.
 version: 3
-
-# High-level phrase describing what this action does. Required.
 summary: Build Image
-
-# Single-paragraph explanation of what this action does in more detail.
-# Optional. Markdown.
-description: This Kaniko step allows you to build a docker image from the git resource provided. It supports pushing images to GCR and Docker Hub. In your workflow, either specify a Secret named `dockerhub` whose value is the output of `echo USER:PASSWORD | base64`, or use a `gcp` parameter whose value is a Relay GCP connection.
-
-
-# URL or path relative to this file to an icon or icons representing this
-# action. Optional. Defaults to the integration icon.
-icon:
-
-# The mechanism to use to construct this step. Required. Must be an action
-# builder. See the Builders section below.
+description: This Kaniko step allows you to build a docker image from the git resource provided. It supports pushing images to GCR and Docker Hub. In your workflow, either specify a Secret named `dockerhub` whose value is the output of `echo USER:PASSWORD | base64`, or use `google.connection` whose value is a Relay GCP connection.
 build:
-  # The schema version for builders. Required. For now, must be the exact
-  # string "build/v1". We may consider supporting custom third-party builders
-  # in the future.
   apiVersion: build/v1
-
-  # The builder to use. Required.
   kind: Docker
-
 publish:
   repository: relaysh/kaniko-step-image-build
-
 schemas:
   spec:
     source: file
     file: spec.schema.json
-
 examples:
-- summary: Build a docker image
+- summary: Build a docker image and push to DockerHub
   content:
     apiVersion: v1
     kind: Step
@@ -53,10 +22,24 @@ examples:
     image: relaysh/kaniko-step-image-build
     spec:
       dockerhub: !Secret dockerhub
-      gcp: !Connection {type: gcp, name: my-gcp-credentials}
       destination: !Parameter imageName
       git:
-        ssh_key: !Secret ssh-key
+        connection: !Connection {type: ssh, name: my-ssh-connection}
+        name: !Parameter name
+        branch: !Parameter gitBranch
+        repository: !Parameter gitRepository
+- summary: Build a docker image and push to GCR
+  content:
+    apiVersion: v1
+    kind: Step
+    name: kaniko
+    image: relaysh/kaniko-step-image-build
+    spec:
+      google:
+        connection: !Connection {type: gcp, name: my-gcp-connection}
+      destination: !Parameter imageName
+      git:
+        connection: !Connection {type: ssh, name: my-ssh-connection}
         name: !Parameter name
         branch: !Parameter gitBranch
         repository: !Parameter gitRepository
