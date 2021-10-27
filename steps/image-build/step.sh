@@ -13,6 +13,19 @@ if [ -n "${GOOGLE}" ]; then
   export GOOGLE_APPLICATION_CREDENTIALS=/workspace/.gcp/credentials.json
 fi
 
+AWS=$(ni get -p {.aws})
+if [[ -n $AWS ]]; then
+  ni aws config
+  export AWS_SHARED_CREDENTIALS_FILE=/workspace/.aws/credentials
+
+  mkdir -p /kaniko/.docker
+  cat << EOF > /kaniko/.docker/config.json
+{
+  "credsStore": "ecr-login"
+}
+EOF
+fi
+
 DOCKERHUB=$(ni get -p {.dockerhub})
 if [[ -n $DOCKERHUB ]]; then
   mkdir -p /kaniko/.docker
